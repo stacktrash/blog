@@ -9,45 +9,53 @@ const aboutContent = "Hac habitasse platea dictumst vestibulum rhoncus est pelle
 const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rhoncus urna neque viverra justo nec ultrices. Arcu dui vivamus arcu felis bibendum. Consectetur adipiscing elit duis tristique. Risus viverra adipiscing at in tellus integer feugiat. Sapien nec sagittis aliquam malesuada bibendum arcu vitae. Consequat interdum varius sit amet mattis. Iaculis nunc sed augue lacus. Interdum posuere lorem ipsum dolor sit amet consectetur adipiscing elit. Pulvinar elementum integer enim neque. Ultrices gravida dictum fusce ut placerat orci nulla. Mauris in aliquam sem fringilla ut morbi tincidunt. Tortor posuere ac ut consequat semper viverra nam libero.";
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }))
-app.get("/", (req, res)=> {
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+
+
+
+var posts = [];
+
+
+app.get("/", (req, res) => {
   res.render("home", {
     StartingContent: homeStartingContent,
-
+    posts: posts
   });
+
 })
 
-app.get("/about", (req, res)=> {
+app.get("/about", (req, res) => {
   res.render("about", {
     AboutContent: aboutContent
   });
 })
 
-app.get("/contact", (req, res)=> {
+app.get("/contact", (req, res) => {
   res.render("contact", {
     Contact: contactContent
   });
 })
 
-app.get("/compose", (req, res)=> {
+app.get("/compose", (req, res) => {
   res.render("compose");
 })
 
-app.post("/compose", (req, res)=>{
-  var title = req.body.title;
-  var paragraph = req.body.paragraph;
-  console.log(title);
-  console.log(paragraph);
+app.post("/compose", (req, res) => {
+
+
+  const post = {
+    title : req.body.title,
+    content : req.body.paragraph
+  }
+  posts.push(post);
+  res.redirect("/");
 })
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+
 app.use(express.static("public"));
-
-
-
-
-
 
 
 
